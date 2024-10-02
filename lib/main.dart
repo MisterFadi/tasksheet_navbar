@@ -4,14 +4,32 @@ void main() {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
+
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  final List<Widget> screens = [
+    const ProfileWidget(),
+    const LikeWidget(),
+    const NewsPaperWidget(),
+  ];
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         bottomNavigationBar: NavigationBar(
+          indicatorColor: Colors.lime,
+          selectedIndex: currentIndex,
+          onDestinationSelected: (index) {
+            currentIndex = index;
+            setState(() {});
+          },
           destinations: const [
             NavigationDestination(
               icon: Icon(Icons.newspaper),
@@ -31,7 +49,7 @@ class MainApp extends StatelessWidget {
           backgroundColor: Colors.lime,
           title: const Text("MyApp"),
         ),
-        body: const ProfileWidget(),
+        body: screens[currentIndex],
       ),
     );
   }
